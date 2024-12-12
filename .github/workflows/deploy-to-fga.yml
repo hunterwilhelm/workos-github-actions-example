@@ -19,6 +19,8 @@ jobs:
         uses: workos/cli-action@v1
         with:
           version: latest
+      - name: Check out repository
+        uses: actions/checkout@v3
       - name: Use the file
         run: cat ./schema.txt
       - name: Apply Schema to WorkOS
