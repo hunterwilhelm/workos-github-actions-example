@@ -6,7 +6,6 @@ on:
       - main
 jobs:
   main_deploy_to_cloud_run:
-    needs: main_build_and_publish
     uses: ./.github/workflows/deploy-to-fga.yml
     with:
       WORKOS_ACTIVE_ENVIRONMENT: staging
