@@ -1,0 +1,25 @@
+version 0.2
+
+type user
+
+type organization
+    relation member_of_organization [user]
+
+type folder
+    relation computed_membership [user]
+    relation has_organization [organization]
+    relation member [user]
+
+    inherit computed_membership if
+        all_of
+            relation member_of_organization on has_organization [organization]
+            relation member
+
+type document
+    relation organization [organization]
+    relation parent_folder [folder]
+    relation viewer [user]
+
+    inherit viewer if
+        relation computed_membership on parent_folder [folder]
+

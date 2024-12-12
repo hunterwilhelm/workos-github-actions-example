@@ -1,0 +1,27 @@
+name: Deploy to FGA
+
+on:
+  workflow_call:
+    inputs:
+      WORKOS_ACTIVE_ENVIRONMENT:
+        required: true
+        type: string
+    secrets:
+      WORKOS_API_KEY:
+        required: true
+
+jobs:
+  deploy: 
+    runs-on: ubuntu-latest
+    steps:
+      # Install WorkOS CLI and apply schema to WorkOS
+      - name: Install WorkOS CLI
+        uses: workos/cli-action@v1
+        with:
+          version: latest
+      - name: Apply Schema to WorkOS
+        run: |
+          workos fga schema apply ./app/packages/back/src/plugins/fga/permissionSecurity.schema
+        env:
+          WORKOS_ACTIVE_ENVIRONMENT: ${{ inputs.WORKOS_ACTIVE_ENVIRONMENT }}
+          WORKOS_ENVIRONMENTS_HEADLESS_API_KEY: ${{ secrets.WORKOS_API_KEY }}
